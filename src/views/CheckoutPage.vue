@@ -147,9 +147,7 @@ export default {
   methods: {
     async fetchOffer() {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/OfferCode/${this.offerCode}`
-        );
+        const response = await axios.get(`http://localhost:3000/OfferCode`);
         this.offer = response.data;
       } catch (error) {
         console.error("Erro ao buscar oferta:", error);
@@ -165,15 +163,24 @@ export default {
             this.addressError = "CEP não encontrado.";
             this.address = "";
           } else {
-            this.address = `${response.data.logradouro}, ${response.data.bairro}, ${response.data.localidade} - ${response.data.uf}`;
-            this.addressError = "";
+            if (response.data.logradouro) {
+              this.address = `${response.data.logradouro}, ${response.data.bairro}, ${response.data.localidade} - ${response.data.uf}`;
+              this.addressError = "";
+            } else {
+              this.addressError =
+                "Endereço não encontrado para o CEP informado.";
+              this.address = "";
+            }
           }
         } catch (error) {
           this.addressError = "Falha ao buscar o endereço.";
           this.address = "";
         }
+      } else {
+        this.address = "";
       }
     },
+
     validateForm() {
       this.nameError = !this.name
         ? "Nome completo é obrigatório."
@@ -228,8 +235,6 @@ export default {
         cardExpiry: this.cardExpiry,
         cpf: this.cpf,
       };
-
-      // Simula requisição POST para criar o pedido
       try {
         const response = await axios.post(
           `http://localhost:3000/orders`,

@@ -8,14 +8,16 @@
       min-height="1130"
     >
       <v-card-title class="text-right">{{ offer.name }}</v-card-title>
-      <v-card-subtitle class="text-right text-color">{{ offer.subtitle }}</v-card-subtitle>
+      <v-card-subtitle class="text-right text-color">{{
+        offer.subtitle
+      }}</v-card-subtitle>
       <template v-slot:actions>
         <router-view></router-view>
         <router-link :to="`/CheckoutPage`">
           <v-btn
             class="mb-6 bg-surface-variant"
             append-icon="mdi-chevron-right"
-            text="Compre o café aqui!"
+            text="Compre sua receita aqui!"
             variant="outlined"
           ></v-btn>
         </router-link>
