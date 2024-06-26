@@ -46,6 +46,32 @@
       "cardCvv": "",
       "cardExpiry": "",
       "cpf": "02041141603"
+    },
+    {
+      "id": "84a6",
+      "name": "HENRIQUE OLIVEIRA GOBI",
+      "email": "",
+      "phone": "(34) 99898-3008",
+      "cep": "38414704",
+      "address": "Rua Firenze, Jardim Europa, Uberlândia - MG",
+      "paymentMethod": "Boleto",
+      "cardNumber": "",
+      "cardCvv": "",
+      "cardExpiry": "",
+      "cpf": "02041141603"
+    },
+    {
+      "id": "1d46",
+      "name": "HENRIQUE OLIVEIRA GOBI",
+      "email": "",
+      "phone": "(99) 99999-9999",
+      "cep": "38414704",
+      "address": "Rua Firenze, Jardim Europa, Uberlândia - MG",
+      "paymentMethod": "Pix",
+      "cardNumber": "",
+      "cardCvv": "",
+      "cardExpiry": "",
+      "cpf": "00000000000"
     }
   ]
 }
