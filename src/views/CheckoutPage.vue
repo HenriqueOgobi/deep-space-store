@@ -4,9 +4,13 @@
       <v-col cols="12" sm="6" md="4">
         <h3>Detalhes do Pedido</h3>
         <p v-if="orderDetails.success">
-          Status do Pedido: 
-          <span v-if="orderDetails.paymentMethod === 'Pix'">Aguardando pagamento</span>
-          <span v-else-if="orderDetails.paymentMethod === 'Boleto'">Aguardando pagamento</span>
+          Status do Pedido:
+          <span v-if="orderDetails.paymentMethod === 'Pix'"
+            >Aguardando pagamento</span
+          >
+          <span v-else-if="orderDetails.paymentMethod === 'Boleto'"
+            >Aguardando pagamento</span
+          >
           <span v-else>Pagamento realizado</span>
         </p>
         <p v-else>Status do Pedido: Falhou</p>
@@ -41,6 +45,20 @@
         <p v-if="!orderDetails.success && orderDetails.errorMsg">
           {{ orderDetails.errorMsg }}
         </p>
+        <template
+          v-if="
+            orderDetails.errorMsg === 'CPF inválido. Pedido não autorizado.'
+          "
+        >
+          <p>CPF: {{ orderDetails.cpf }}</p>
+          <p v-if="orderDetails.paymentMethod !== 'Cartão de Crédito'">
+            {{ orderDetails.paymentMethod }} Código:
+            {{ orderDetails.paymentCode }}
+          </p>
+          <p v-if="orderDetails.paymentMethod === 'Cartão de Crédito'">
+            Status de Pagamento: Pagamento não realizado
+          </p>
+        </template>
       </v-col>
     </v-row>
 
@@ -65,56 +83,66 @@
           v-model="name"
           :error-messages="nameError"
           label="Nome Completo"
+          aria-label="Nome Completo"
         ></v-text-field>
         <v-text-field
           v-model="email"
           :error-messages="emailError"
           label="Email"
+          aria-label="Email"
         ></v-text-field>
         <v-text-field
           v-model="phone"
           :error-messages="phoneError"
           label="Telefone"
+          aria-label="Telefone"
         ></v-text-field>
         <v-text-field
           v-model="cep"
           :error-messages="cepError"
           label="CEP"
           @change="fetchAddress"
+          aria-label="CEP"
         ></v-text-field>
         <v-text-field
           v-model="address"
           :error-messages="addressError"
           label="Endereço"
+          aria-label="Endereço"
         ></v-text-field>
         <v-select
           v-model="paymentMethod"
           :items="paymentMethods"
           :error-messages="paymentMethodError"
           label="Método de Pagamento"
+          aria-label="Método de Pagamento"
         ></v-select>
         <v-text-field
           v-if="paymentMethod === 'Cartão de Crédito'"
           v-model="cardNumber"
           :error-messages="cardNumberError"
           label="Número do Cartão"
+          aria-label="Número do Cartão"
         ></v-text-field>
         <v-text-field
           v-if="paymentMethod === 'Cartão de Crédito'"
           v-model="cardCvv"
           :error-messages="cardCvvError"
           label="CVV"
+          aria-label="CVV"
         ></v-text-field>
         <v-text-field
           v-if="paymentMethod === 'Cartão de Crédito'"
           v-model="cardExpiry"
           :error-messages="cardExpiryError"
           label="Data de Validade (MM/AA)"
+          aria-label="Data de Validade (MM/AA)"
         ></v-text-field>
         <v-text-field
           v-model="cpf"
           :error-messages="cpfError"
           label="CPF"
+          aria-label="CPF"
           @input="formatCpf"
         ></v-text-field>
         <div class="d-flex justify-center">
@@ -169,6 +197,7 @@ export default {
         const response = await axios.get(`http://localhost:3000/OfferCode`);
         this.offer = response.data;
       } catch (error) {
+        console.error(error);
       }
     },
     async fetchAddress() {
@@ -198,7 +227,6 @@ export default {
         this.address = "";
       }
     },
-
     validateForm() {
       this.nameError = !this.name
         ? "Nome completo é obrigatório."
@@ -208,9 +236,10 @@ export default {
       this.emailError =
         this.email && !this.email.includes("@") ? "Email inválido." : "";
       this.phoneError =
-        !this.phone || !/^(\(?\d{2}\)?\s)?(\d{4,5}-\d{4})$/.test(this.phone)
+        !this.phone || !/^\(\d{2}\) \d{5}-\d{4}$/.test(this.phone)
           ? "Número de telefone inválido. Formato esperado: (99) 99999-9999."
           : "";
+
       this.cepError = !this.cep ? "CEP é obrigatório." : "";
       this.addressError = !this.address ? "Endereço é obrigatório." : "";
       this.paymentMethodError = !this.paymentMethod
@@ -253,12 +282,27 @@ export default {
         cardExpiry: this.cardExpiry,
         cpf: this.cpf,
       };
+
       try {
         const response = await axios.post(
           `http://localhost:3000/orders`,
           formData
         );
-        this.handleOrderResponse(response);
+        if (/^0{11}$/.test(this.cpf)) {
+          this.orderDetails = {
+            success: false,
+            errorMsg: "CPF inválido. Pedido não autorizado.",
+            name: this.name,
+            email: this.email,
+            phone: this.phone,
+            cep: this.cep,
+            address: this.address,
+            paymentMethod: this.paymentMethod,
+            cpf: this.cpf,
+          };
+        } else {
+          this.handleOrderResponse(response);
+        }
       } catch (error) {
         this.orderDetails = {
           success: false,

@@ -3,7 +3,49 @@
     "name": "Cafe Badilico",
     "price": 100,
     "subtitle": "Melhor café que existe, te da um buff programando 8 horas sem parar!",
-    "image": ["https://cdn.vuetifyjs.com/images/cards/cooking.png"]
+    "image": [
+      "https://cdn.vuetifyjs.com/images/cards/cooking.png"
+    ]
   },
-  "orders": []
+  "orders": [
+    {
+      "id": "68ed",
+      "name": "HENRIQUE OLIVEIRA GOBI",
+      "email": "",
+      "phone": "(99) 99999-9999",
+      "cep": "38414704",
+      "address": "Rua Firenze, Jardim Europa, Uberlândia - MG",
+      "paymentMethod": "Pix",
+      "cardNumber": "",
+      "cardCvv": "",
+      "cardExpiry": "",
+      "cpf": "00000000000"
+    },
+    {
+      "id": "b088",
+      "name": "HENRIQUE OLIVEIRA GOBI",
+      "email": "",
+      "phone": "(99) 99999-9999",
+      "cep": "38414704",
+      "address": "Rua Firenze, Jardim Europa, Uberlândia - MG",
+      "paymentMethod": "Cartão de Crédito",
+      "cardNumber": "12323123123",
+      "cardCvv": "234",
+      "cardExpiry": "40/90",
+      "cpf": "02041141603"
+    },
+    {
+      "id": "4e7f",
+      "name": "HENRIQUE OLIVEIRA GOBI",
+      "email": "",
+      "phone": "(99) 99999-9999",
+      "cep": "38414-704",
+      "address": "rua firenze",
+      "paymentMethod": "Pix",
+      "cardNumber": "",
+      "cardCvv": "",
+      "cardExpiry": "",
+      "cpf": "02041141603"
+    }
+  ]
 }
