@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
+    "@types/which": "^3.0.4",
+    "@types/yauzl": "^2.10.3",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@wdio/cli": "^8.39.0",

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--define routes ways-->
     <router-link to="/"></router-link>
     <router-link to="/CheckoutPage"></router-link>
     <router-view></router-view>

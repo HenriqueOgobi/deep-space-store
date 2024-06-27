@@ -1,5 +1,6 @@
 <template>
   <v-container class="black-background">
+    <!-- shows the result of the payment method logic -->
     <v-row v-if="orderDetails" class="d-flex justify-center align-center">
       <v-col cols="12" sm="6" md="4">
         <h3>Detalhes do Pedido</h3>
@@ -27,6 +28,7 @@
           <p v-if="orderDetails.paymentMethod === 'Cartão de Crédito'">
             Status de Pagamento: Pagamento realizado
           </p>
+          <!--Displays image of the Pix QR Code and Boleto Bank barcode-->
           <v-img
             v-if="orderDetails.paymentMethod === 'Pix'"
             src="../assets/qrcode.png"
@@ -42,6 +44,7 @@
             min-width="900px"
           ></v-img>
         </template>
+        <!--error message by cpf or success-->
         <p v-if="!orderDetails.success && orderDetails.errorMsg">
           {{ orderDetails.errorMsg }}
         </p>
@@ -61,7 +64,7 @@
         </template>
       </v-col>
     </v-row>
-
+    <!--Displays offer information-->
     <v-row v-if="!orderDetails" class="d-flex justify-center align-center mb-6">
       <v-col cols="15" sm="6" md="4">
         <h1>{{ offer.name }}</h1>
@@ -76,7 +79,7 @@
         ></v-img>
       </v-col>
     </v-row>
-
+    <!-- Order form -->
     <v-sheet v-if="!orderDetails" class="mx-auto" color="black" width="575">
       <v-form @submit.prevent="validateForm">
         <v-text-field
@@ -145,6 +148,7 @@
           aria-label="CPF"
           @input="formatCpf"
         ></v-text-field>
+        <!-- Button to submit the form -->
         <div class="d-flex justify-center">
           <v-btn type="submit" variant="outlined">Realizar Pedido</v-btn>
         </div>
@@ -189,9 +193,11 @@ export default {
     };
   },
   mounted() {
+    //search offer details when assembling the component
     this.fetchOffer();
   },
   methods: {
+    // Function to search the offer details
     async fetchOffer() {
       try {
         const response = await axios.get(`http://localhost:3000/OfferCode`);
@@ -200,6 +206,7 @@ export default {
         console.error(error);
       }
     },
+    // Function to search for address based on zip code
     async fetchAddress() {
       if (this.cep.length === 8) {
         try {
@@ -227,6 +234,7 @@ export default {
         this.address = "";
       }
     },
+    // Function to validate the form with regex
     validateForm() {
       this.nameError = !this.name
         ? "Nome completo é obrigatório."
@@ -264,11 +272,12 @@ export default {
         this.cardCvvError = "";
         this.cardExpiryError = "";
       }
-
+      // If there are no errors, submit the request
       if (!this.hasErrors()) {
         this.submitOrder();
       }
     },
+    // Function to submit the request
     async submitOrder() {
       const formData = {
         name: this.name,
@@ -282,7 +291,6 @@ export default {
         cardExpiry: this.cardExpiry,
         cpf: this.cpf,
       };
-
       try {
         const response = await axios.post(
           `http://localhost:3000/orders`,
@@ -310,6 +318,7 @@ export default {
         };
       }
     },
+    // Function to handle the request response
     handleOrderResponse(response) {
       if (response.status === 201) {
         this.orderDetails = { success: true, ...response.data };
@@ -321,6 +330,7 @@ export default {
         };
       }
     },
+    // Function to check the form for errors
     hasErrors() {
       return (
         this.nameError ||
@@ -335,6 +345,7 @@ export default {
         this.cpfError
       );
     },
+    // Function to format the CPF by removing non-numeric characters
     formatCpf() {
       this.cpf = this.cpf.replace(/[^\d]/g, "");
     },

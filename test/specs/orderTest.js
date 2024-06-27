@@ -25,9 +25,8 @@ describe("Order Submission Test", () => {
     await body.click(); //body click for fill endrees field
     await browser.pause(2000);
 
-    // Localiza o campo do método de pagamento e seleciona "Cartão de Crédito"
     const paymentMethodField = await $('[aria-label="Método de Pagamento"]');
-    await paymentMethodField.scrollIntoView(); // Garante que o campo esteja visível
+    await paymentMethodField.scrollIntoView();
     await paymentMethodField.waitForExist({ timeout: 5000 });
 
     await browser.execute(function () {
@@ -37,19 +36,15 @@ describe("Order Submission Test", () => {
       field.scrollIntoView();
     });
 
-    // paymentfield click
     await paymentMethodField.click();
 
-    // await paymentMethodField
     const opcaoCartaoCredito = await $(
       '//div[contains(text(),"Cartão de Crédito")]'
     );
     await opcaoCartaoCredito.waitForExist({ timeout: 5000 });
 
-    // choose credit card
     await opcaoCartaoCredito.click();
 
-    // data creditcard
     const cardNumberField = await $('[aria-label="Número do Cartão"]');
     await cardNumberField.waitForExist({ timeout: 5000 });
     await cardNumberField.setValue("4111 1111 1111 1111");
@@ -63,7 +58,6 @@ describe("Order Submission Test", () => {
     const cpfField = await $('[aria-label="CPF"]');
     await cpfField.setValue("12345678900");
 
-    //submit card
     const submitButton = await $('button[type="submit"]');
     await submitButton.waitForExist({ timeout: 10000 });
     await submitButton.click();

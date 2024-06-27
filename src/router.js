@@ -1,7 +1,9 @@
+//import routes and import funcionalitys 
 import { createRouter, createWebHistory } from "vue-router";
 import Offers from "@/views/Offers.vue";
 import CheckoutPage from "@/views/CheckoutPage.vue";
 
+//named routes
 const routes = [
   {
     path: "/",
@@ -14,8 +16,10 @@ const routes = [
     component: CheckoutPage,
   },
 ];
+// create routes
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+//export routs
 export default router;

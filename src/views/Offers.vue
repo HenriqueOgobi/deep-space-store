@@ -1,5 +1,6 @@
 <template>
   <v-container class="d-flex justify-center">
+    <!-- Card that shows the offer -->
     <v-card
       class="d-flex flex-column justify-end align-end"
       color="surface-variant"
@@ -13,6 +14,7 @@
       }}</v-card-subtitle>
       <template v-slot:actions>
         <router-view></router-view>
+        <!-- the link to the checkout page -->
         <router-link :to="`/CheckoutPage`">
           <v-btn
             class="mb-6 bg-surface-variant"
@@ -28,16 +30,22 @@
 
 <script>
 export default {
+  // Component name
   name: "Offers",
   data() {
     return {
+      // Gets the offer code from the route parameters
       offerCode: this.$route.params.id,
+      // Initialize the offer object
       offer: {},
     };
   },
   mounted() {
+    // search the offer data when assembling the component
     fetch("http://localhost:3000/OfferCode")
+      // Convert the response to JSON
       .then((resp) => resp.json())
+      // Defines the offer data in the offer object
       .then((data) => (this.offer = data));
   },
 };
