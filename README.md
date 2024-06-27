@@ -10,14 +10,18 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### json server
 ```
-npm run build
+npx  json-server --watch data/db.json  
 ```
 
-### Lints and fixes files
+### to run the unit test
 ```
-npm run lint
+npm test
+```
+### to e2e test
+```
+npx wdio run wdio.conf.js
 ```
 
 ### Customize configuration
