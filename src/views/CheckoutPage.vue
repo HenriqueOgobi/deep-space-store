@@ -54,13 +54,7 @@
           "
         >
           <p>CPF: {{ orderDetails.cpf }}</p>
-          <p v-if="orderDetails.paymentMethod !== 'Cartão de Crédito'">
-            {{ orderDetails.paymentMethod }} Código:
-            {{ orderDetails.paymentCode }}
-          </p>
-          <p v-if="orderDetails.paymentMethod === 'Cartão de Crédito'">
-            Status de Pagamento: Pagamento não realizado
-          </p>
+          <p>Status de Pagamento: Pagamento não realizado</p>
         </template>
       </v-col>
     </v-row>
@@ -158,10 +152,12 @@
 </template>
 
 <script>
+// axios do requests http
 import axios from "axios";
 
 export default {
   name: "CheckoutPage",
+  // the data is stored the variables
   data() {
     return {
       offerCode: this.$route.params.id,
